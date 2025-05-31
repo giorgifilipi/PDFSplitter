@@ -26,6 +26,11 @@ class NotaApp(tk.Tk):
         tk.Radiobutton(self, text="Matutino", variable=self.turno_var, value="Matutino").pack(anchor="w", padx=20)
         tk.Radiobutton(self, text="Vespertino", variable=self.turno_var, value="Vespertino").pack(anchor="w", padx=20)
 
+         # Nome da turma
+        tk.Label(self, text="Nome da Matéria:").pack(anchor="w", padx=10, pady=(10,0))
+        self.materia_entry = tk.Entry(self, width=40)
+        self.materia_entry.pack(padx=10, anchor="w")
+
         # Lista de nomes
         tk.Label(self, text="Lista de Nomes (um por linha):").pack(anchor="w", padx=10, pady=(10,0))
         self.nomes_text = tk.Text(self, width=40, height=8)
@@ -46,13 +51,12 @@ class NotaApp(tk.Tk):
         pdf = self.pdf_path.get()
         turma = self.turma_entry.get()
         turno = self.turno_var.get()
+        materia = self.materia_entry.get()
         nomes = self.nomes_text.get("1.0", tk.END).strip().splitlines()
 
         if not pdf or not turma or not nomes:
             messagebox.showerror("Erro", "Preencha todos os campos e selecione um PDF.")
             return
-
-        nomes = sorted(nomes, key=lambda x: x.strip().lower())
         
         # Split PDF e nomear pelos nomes
         try:
@@ -72,7 +76,7 @@ class NotaApp(tk.Tk):
                 output_path = os.path.join(output_dir, f"{nome}_{turma_nome}_{turno_nome}.pdf")
                 with open(output_path, "wb") as f_out:
                     writer.write(f_out)
-            messagebox.showinfo("Sucesso", f"PDF dividido e nomeado conforme a lista na pasta '{turma_nome}_{turno_nome}'.")
+            messagebox.showinfo("Sucesso", f"PDF dividido e nomeado conforme a lista na pasta '{turma_nome}_{turno_nome}_{materia}'.")
         except Exception as e:
             messagebox.showerror("Erro ao dividir PDF", str(e))
 
