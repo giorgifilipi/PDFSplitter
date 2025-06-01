@@ -62,7 +62,7 @@ class NotaApp(tk.Tk):
         try:
             turno_nome = turno.strip().replace(" ", "_")
             turma_nome = turma.strip().replace(" ", "_")
-            output_dir = os.path.join(os.path.dirname(pdf), f"{turma_nome}_{turno_nome}")
+            output_dir = os.path.join(os.path.dirname(pdf), f"{turma_nome}_{turno_nome}_{materia}")
             os.makedirs(output_dir, exist_ok=True)
             reader = PdfReader(pdf)
             total_paginas = len(reader.pages)
@@ -73,7 +73,7 @@ class NotaApp(tk.Tk):
                 writer = PdfWriter()
                 writer.add_page(page)
                 nome = nomes[i].strip().replace(" ", "_")
-                output_path = os.path.join(output_dir, f"{nome}_{turma_nome}_{turno_nome}.pdf")
+                output_path = os.path.join(output_dir, f"{nome}_{turma_nome}_{turno_nome}_{materia}.pdf")
                 with open(output_path, "wb") as f_out:
                     writer.write(f_out)
             messagebox.showinfo("Sucesso", f"PDF dividido e nomeado conforme a lista na pasta '{turma_nome}_{turno_nome}_{materia}'.")
